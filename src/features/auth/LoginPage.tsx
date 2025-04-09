@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GoogleIcon from '../../shared/assets/icons/Google';
 import InstagramIcon from '../../shared/assets/icons/Instagram';
+import { useAuth } from '../../shared/hooks/useAuth';
 
 const LoginPage = () => {
+  const [token, setToken] = useState("");
+  const {login, isLoading} = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -14,8 +17,15 @@ const LoginPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(token.trim()){
+      login(token);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-900 text-white">
       {/* Left Side: Image */}
       <div className="w-full md:w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1500220621438-7f1c548f639a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}>
         <div className="flex flex-col justify-between p-8 h-full">
